@@ -1,55 +1,65 @@
-# UART Asynchronous Example with Separate Receive and Transfer Tasks
 
-(See the README.md file in the upper level 'examples' directory for more information about examples.)
+# Mini-For-Developer
 
-This example demonstrates how two asynchronous tasks can use the same UART interface for communication. One can use
-this example to develop more complex applications for serial communication.
+## 目录
 
-The example starts two FreeRTOS tasks:
-1. The first task periodically transmits `Hello world` via the UART.
-2. The second task task listens, receives and prints data from the UART.
+- [Mini-For-Developer](#mini-for-developer)
+  - [目录](#目录)
+  - [项目简介](#项目简介)
+  - [目录结构](#目录结构)
+  - [安装和使用](#安装和使用)
+    - [环境信息](#环境信息)
+  - [更新日志](#更新日志)
+    - [2025-12-03](#2025-12-03)
+    - [2025-12-11](#2025-12-11)
+    - [2025-12-23](#2025-12-23)
+  - [贡献](#贡献)
+  - [许可证](#许可证)
 
-## How to use example
+## 项目简介
+此项目为，对于XGOMINI4的底层固件支持
+## 目录结构
+-  Mini-For-Developer:
+    - components:示例程序
+      - icm20948：传感器库
+      - servo_driver：舵机驱动库
+      - uart_comm：uart通用库
+      - other：led等其他驱动库
+    - config：UART和舵机的配置信息
+    - main：主程序
+## 安装和使用
+### 环境信息
+   1. win10
+   2. IDF版本：4.4.8.1
+   
+1. 克隆本仓库：
+    ```bash
+    git clone https://github.com/Xgorobot/Mini-For-Developer
+    ```
 
-### Hardware Required
+2. 进入项目目录：
+    ```bash
+    cd Mini-For-Developer
+    ```
 
-The example can be run on any commonly available ESP32, ESP32-S and ESP32-C series based development board. You will need a USB cable to connect the
-development board to a computer, and a simple one-wire cable for shorting two pins of the board.
+3. 编译并烧录
 
-### Setup the Hardware
+## 更新日志
+### 2025-12-03
+- **代码改进** 搭建了初步框架
+### 2025-12-11
+- **代码改进** 增加了与树莓派的通讯函数
+### 2025-12-23
+- **代码改进** 增加了发送action、读取IMU等，目前已经可以和上位机正常通讯并执行命令。稳定版。
 
-The `RXD_PIN` and `TXD_PIN` which are configurable in the code (by default `GPIO4` and `GPIO5`) need to be shorted in
-order to receive back the same data which were sent out.
+## 贡献
+欢迎贡献！我们欢迎任何建议、修复和功能增强。如果你有兴趣为这个项目贡献，可以按照以下步骤操作:  
+1.Fork 本仓库  
+2.创建你自己的分支 (git checkout -b feature-branch)  
+3.提交你的修改 (git commit -m 'Add new feature')  
+4.Push 到你的分支 (git push origin feature-branch)  
+5.提交 Pull Request
 
-### Configure the project
+## 许可证
+此项目遵循 MIT 许可证。
 
-```
-idf.py menuconfig
-```
-
-### Build and Flash
-
-Build the project and flash it to the board, then run monitor tool to view serial output:
-
-```
-idf.py -p PORT flash monitor
-```
-
-(To exit the serial monitor, type ``Ctrl-]``.)
-
-See the Getting Started Guide for full steps to configure and use ESP-IDF to build projects.
-
-## Example Output
-
-You will receive the following repeating output from the monitoring console:
-```
-...
-I (3261) TX_TASK: Wrote 11 bytes
-I (4261) RX_TASK: Read 11 bytes: 'Hello world'
-I (4261) RX_TASK: 0x3ffb821c   48 65 6c 6c 6f 20 77 6f  72 6c 64                 |Hello world|
-...
-```
-
-## Troubleshooting
-
-If you do not see any output from `RX_TASK` then check if you have the `RXD_PIN` and `TXD_PIN` pins shorted on the board.
